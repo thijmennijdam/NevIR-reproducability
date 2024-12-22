@@ -1,6 +1,6 @@
 
 # Official repo of "Reproducing NevIR: Negation in Neural Information Retrieval:
-As there are lots of different models we are benchmarking and most libraries that we use all have their own dependencies, we need different environments for different models. All models that we evaluated in our paper can be reproduced. Simply follow the commands described in the section "Evaluate on NevIR". For some models you have to ask permission on huggingface first, this usually is accepted pretty quickly. Under "Finetune experiments" we describe how to reproduce our finetune experiments.
+Here we describe how to reproduce all the experiments in our paper. Simply follow the commands described in the section "Evaluate on NevIR" to benchmark all models that we tested. For some models you have to ask permission on huggingface first, this usually is accepted pretty quickly. Under "Finetune experiments" we describe how to reproduce our finetune experiments.
 
 This repository is organized as follows:
 
