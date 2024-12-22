@@ -1,6 +1,8 @@
 
 # Official repo of "Reproducing NevIR: Negation in Neural Information Retrieval:
-Here we describe how to reproduce all the experiments in our paper. Simply follow the commands described in the section "Evaluate on NevIR" to benchmark all models that we tested. For some models you have to ask permission on huggingface first, this usually is accepted pretty quickly. Under "Finetune experiments" we describe how to reproduce our finetune experiments.
+All models that we evaluated in our paper can be reproduced. Simply follow the commands described in the section "How to reproduce". For some models you have to ask permission on huggingface first, this usually is accepted pretty quickly.
+
+To manage the different virual environtments it is highly recommended to use uv: https://docs.astral.sh/uv/. It is an extremely fast (10-100x faster than pip) package manager and can easily be used to create vens with different python version which we will need.  
 
 This repository is organized as follows:
 
@@ -14,9 +16,6 @@ data/              # Stores all datasets. Use `data.py` to download the required
 requirements/      # Contains requirement files needed to set up different environments.  
 models/            # Contains model checkpoints and weights used during training and evaluation.  
 ```
-
-To manage the different virual environtments it is highly recommended to use uv: https://docs.astral.sh/uv/. It is an extremely fast (10-100x faster than pip) package manager and can easily be used to create vens with different python version which we will need.  
-
 
 # Evaluate on NevIR
 
