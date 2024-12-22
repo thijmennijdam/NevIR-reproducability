@@ -5,7 +5,7 @@ import tqdm
 from scipy.special import softmax
 from datasets import load_dataset
 
-from evaluate.run_colbert import calc_preferred_colbert 
+from evaluate.rerank_colbert import calc_preferred_colbert 
   
 MODEL_MAP = {
     "colbertv1": ("colbertv1", calc_preferred_colbert, "v1"),
