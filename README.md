@@ -134,12 +134,19 @@ uv sync
 source .venv/bin/activate
 uv pip install 'mteb[peft]'
 uv pip install 'mteb[jina]'
-pip install mteb[flagembedding]
+uv pip install mteb[flagembedding]
 uv pip install gritlm
 uv pip install --upgrade setuptools
 uv pip uninstall triton
 uv pip install triton
 uv pip install -e ./../../..
+```
+
+For these models, you need to download and log into hugginface:
+
+```bash
+uv pip install hugginface
+huggingface-cli login
 ```
 
 Evaluate the bi-encoders with the following commands (Note that you need to set the environment variable 'OPENAI_API_KEY' before being able to run the OpenAI models):
@@ -155,7 +162,8 @@ uv run python eval_nevir.py --model "samaya-ai/promptriever-llama2-7b-v1"
 uv run python eval_nevir.py --model "samaya-ai/promptriever-mistral-v0.1-7b-v1"
 ```
 
-And the rerankers, make sure to add a path to any previous result from bi-encoders. In our case which bi-encoder does not matter much as we are only reranking two documents:
+And the rerankers, make sure to add a path to any previous result from bi-encoders. Example: ```--previous_results "results/castorini_repllama-v1-7b-lora-passage/NevIR_default_predictions.json"```. In our case which bi-encoder does not matter as we are only reranking two documents.:
+
 ```bash
 uv run python eval_nevir.py --model "jinaai/jina-reranker-v2-base-multilingual" --previous_results "path/to/results"
 uv run python eval_nevir.py --model "BAAI/bge-reranker-base" --previous_results "path/to/results"
@@ -163,7 +171,8 @@ uv run python eval_nevir.py --model "BAAI/bge-reranker-base" --previous_results 
 uv run python eval_nevir.py --model "BAAI/bge-reranker-v2-m3" --previous_results "path/to/results"
 ```
 
-The RankLlama reranker is not integrated yet in MTEB, so you need to run a seperate script for this.
+The RankLlama reranker is not integrated yet in MTEB, so you need to run a seperate script for this. We run it in the mteb environment, so simply:
+
 ```bash
 uv run python ../../evaluate/evaluate_rankllama.py
 ```
@@ -201,11 +210,19 @@ uv run python src/evaluate/evaluate_llms.py
 In this section we describe how to reproduce the finetuning experiments. First the necessary data needs to be downloaded. Simply use any of the provided environments and make sure to install gdown, polars and sentence_transformers. 
 
 ```bash
-uv pip install gdown
-uv pip install sentence_transformers
-uv pip install polars
+uv pip install gdown sentence_transformers polars
 uv run python src/data.py
 ```
+
+The following data is now installed:
+- NevIR data train, validation, and test triplets in tsv files
+- MSMarco collection and top1000 documents, including a custom file with only the 500 queries.
+- ExcluIR data
+- A merged dataset of MSMarco and Nevir under the merged_dataset folder
+- A merged dataset of NevIR and ExcluIR under the Exclu_NevIR_data folder
+
+NOTE: In the following sections we added example commands for the experiments of finetuning on NevIR and subsequently evaluating these checkpoints on NevIR and MSMarco data. One can reproduce all our experiments simply by change on which data a model is finetuned or evaluated with by providing a different path to the arguments. For example, ```--triples data/NevIR_data/train_triplets.tsv``` finetunes on NevIR data, while ```data/merged_dataset/train_samples.tsv``` finetunes on the merged dataset.
+
 
 ## ColBERTv1
 
@@ -232,7 +249,9 @@ uv run python src/finetune/colbert/finetune_colbert.py \
 --checkpoint models/colbert_weights/ColBERTv1/colbert-v1.dnn
 ```
 
-and afterwards the following command to evaluate each checkpoint on NevIR:
+Or change the --triples argument to train on other data. Make sure to store the checkpoints in a different folder with the --root argument. The tarting weights are gathered from the --checkpoint argument, these should not be changed.
+
+Afterwards, run the following command to evaluate each checkpoint on NevIR:
   
 ```bash 
 uv run python src/finetune/colbert/dev_eval_nevir.py \
@@ -251,6 +270,8 @@ yes | uv run python src/finetune/colbert/dev_eval_msmarco.py \
 --experiment NevIR_ft
 ```
 
+Again, change the checkpoint path and output path based on the experiment.
+
 To evaluate the best model on test NevIR and ExcluIR run:
 
 ```bash
@@ -261,6 +282,7 @@ yes | uv run python src/finetune/colbert/test_eval_nevir_excluir.py \
 --excluIR_testdata data/ExcluIR_data/excluIR_test.tsv 
 ```
 
+The --output_path arguments are for storage of the results. 
 
 ## MultiQA-mpnet-base
 To finetune MultiQA model we can reuse the colbert environment.
