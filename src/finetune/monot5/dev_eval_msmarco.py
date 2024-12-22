@@ -152,6 +152,7 @@ def main():
             continue
 
         print(f"Evaluating epoch {epoch} with checkpoint: {checkpoint_path}")
+        #TODO: move model to device
         model = MonoT5(checkpoint_path)
 
         # Set output file paths for this epoch
