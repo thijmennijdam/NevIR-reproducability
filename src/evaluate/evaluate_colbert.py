@@ -9,7 +9,7 @@ from evaluate.run_colbert import calc_preferred_colbert
   
 MODEL_MAP = {
     "colbertv1": ("colbertv1", calc_preferred_colbert, "v1"),
-    # "colbertv2": ("colbertv2", calc_preferred_colbert, "v2")
+    "colbertv2": ("colbertv2", calc_preferred_colbert, "v2")
 }
 
 ALL_MODELS = list(MODEL_MAP.values())
