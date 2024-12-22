@@ -55,10 +55,7 @@ def load_nevir_data(df, train=False):
         for i, row in df.iterrows():
             samples.append(InputExample(texts=[row["query1"], row["query2"], row["positive"], row["negative"]]))
     
-    
-    print(" DELETE LATER, ONLY DOING 10 INSTANCES")
     # only do first 10 instances
-    samples = samples[:10]
     return samples
 
 #TODO: move to utils
@@ -127,14 +124,7 @@ def load_msmarco_topk1000_dev(data_folder: str):
     dev_rel_docs = {qid: dev_rel_docs_full[qid] for qid in dev_query_ids if qid in dev_rel_docs_full}
     dev_pids = {pid for qid in dev_query_ids for pid in top1000_rank.get(qid, [])}
     dev_corpus = {pid: corpus[pid] for pid in dev_pids if pid in corpus}
-    
-    print("DELETE LATER, ONLY DOING 10 INSTANCES")
-    # only do first 10 instances
-    dev_queries = {k: v for i, (k, v) in enumerate(dev_queries.items()) if i < 10}
-    dev_rel_docs = {k: v for i, (k, v) in enumerate(dev_rel_docs.items()) if i < 10}
-    dev_corpus = {k: v for i, (k, v) in enumerate(dev_corpus.items()) if i < 10}
-    
-    
+
     return dev_queries, dev_corpus, dev_rel_docs
 
 
